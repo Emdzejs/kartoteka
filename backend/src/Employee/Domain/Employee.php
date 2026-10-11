@@ -4,7 +4,11 @@ declare(strict_types=1);
 
 namespace App\Employee\Domain;
 
+use App\Employee\Domain\PreviousEmployment\BusinessRegistrationNumber;
+use App\Employee\Domain\PreviousEmployment\PreviousEmployment;
 use DateTimeImmutable;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Types\UlidType;
@@ -45,6 +49,15 @@ class Employee
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private DateTimeImmutable $updatedAt;
 
+    /** @var Collection<int, PreviousEmployment> */
+    #[ORM\OneToMany(
+        targetEntity: PreviousEmployment::class,
+        mappedBy: 'employee',
+        cascade: ['persist'],
+        orphanRemoval: true,
+    )]
+    private Collection $previousEmployments;
+
     private function __construct(
         IdentityNumber $identityNumber,
         FirstName $firstName,
@@ -66,6 +79,8 @@ class Employee
         $now = new DateTimeImmutable();
         $this->createdAt = $now;
         $this->updatedAt = $now;
+
+        $this->previousEmployments = new ArrayCollection();
     }
 
     public static function create(
@@ -136,5 +151,25 @@ class Employee
     public function updatedAt(): DateTimeImmutable
     {
         return $this->updatedAt;
+    }
+
+    /** @return PreviousEmployment[] */
+    public function previousEmployments(): array
+    {
+        return array_values($this->previousEmployments->toArray());
+    }
+
+    public function addPreviousEmployment(
+        BusinessRegistrationNumber $businessRegistrationNumber,
+    ): PreviousEmployment {
+        $employment = PreviousEmployment::create(
+            employee: $this,
+            businessRegistrationNumber: $businessRegistrationNumber,
+        );
+
+        $this->previousEmployments->add($employment);
+        $this->updatedAt = new DateTimeImmutable();
+
+        return $employment;
     }
 }
