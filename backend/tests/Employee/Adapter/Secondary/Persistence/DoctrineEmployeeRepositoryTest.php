@@ -115,7 +115,7 @@ class DoctrineEmployeeRepositoryTest extends KernelTestCase
         );
     }
 
-    public function testReturnsNullWhenEmployeeDoesNotExist(): void
+    public function testFindByIdReturnsNullWhenEmployeeDoesNotExist(): void
     {
         self::bootKernel();
 
@@ -125,5 +125,44 @@ class DoctrineEmployeeRepositoryTest extends KernelTestCase
         $employee = $repository->findById(new Ulid());
 
         self::assertNull($employee);
+    }
+
+    public function testExistsByIdentityNumberReturnsExpected(): void
+    {
+        self::bootKernel();
+
+        $entityManager = self::getContainer()->get(EntityManagerInterface::class);
+        $repository = new DoctrineEmployeeRepository($entityManager);
+
+        $identityNumber = IdentityNumber::fromString('111111-22222');
+
+        self::assertFalse($repository->existsByIdentityNumber($identityNumber));
+
+        $employee = Employee::create(
+            identityNumber: $identityNumber,
+            firstName: FirstName::fromString('Emīls'),
+            lastName: LastName::fromString('Liepa'),
+            gender: Gender::MALE,
+            email: Email::fromString('emils@example.test'),
+            phoneNumber: PhoneNumber::fromString('+37122222222'),
+            address: Address::create(
+                countryCode: 'LV',
+                postalCode: 'LV1111',
+                city: 'Rīga',
+                street: 'Piena iela',
+                streetNumber: '5A',
+            ),
+        );
+
+        $repository->save($employee);
+        $entityManager->clear();
+
+        self::assertTrue($repository->existsByIdentityNumber($identityNumber));
+
+        self::assertFalse(
+            $repository->existsByIdentityNumber(
+                IdentityNumber::fromString('000000-00000'),
+            ),
+        );
     }
 }

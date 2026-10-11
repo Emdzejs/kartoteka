@@ -7,6 +7,7 @@ namespace App\Employee\Adapter\Secondary\Persistence;
 
 use App\Employee\Domain\Employee;
 use App\Employee\Domain\EmployeeRepository;
+use App\Employee\Domain\IdentityNumber;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Uid\Ulid;
 
@@ -26,5 +27,12 @@ final readonly class DoctrineEmployeeRepository implements EmployeeRepository
     public function findById(Ulid $id): ?Employee
     {
         return $this->entityManager->find(Employee::class, $id);
+    }
+
+    public function existsByIdentityNumber(IdentityNumber $identityNumber): bool
+    {
+        return null !== $this->entityManager
+                ->getRepository(Employee::class)
+                ->findOneBy(['identityNumber' => $identityNumber->value]);
     }
 }

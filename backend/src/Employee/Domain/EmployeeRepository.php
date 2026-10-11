@@ -8,4 +8,5 @@ interface EmployeeRepository
 {
     public function save(Employee $employee): void;
     public function findById(Ulid $id): ?Employee;
+    public function existsByIdentityNumber(IdentityNumber $identityNumber): bool;
 }
