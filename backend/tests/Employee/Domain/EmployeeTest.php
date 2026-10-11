@@ -10,7 +10,9 @@ use App\Employee\Domain\Gender;
 use App\Employee\Domain\IdentityNumber;
 use App\Employee\Domain\LastName;
 use App\Employee\Domain\PhoneNumber;
+use App\Employee\Domain\PreviousEmployment\BusinessName;
 use App\Employee\Domain\PreviousEmployment\BusinessRegistrationNumber;
+use App\Employee\Domain\PreviousEmployment\JobRole;
 use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Uid\Ulid;
@@ -65,6 +67,10 @@ class EmployeeTest extends TestCase
 
     public function testAddPreviousEmploymentAddsPreviousEmployment(): void
     {
+        $registrationNumber = 'LV55555222222';
+        $businessName = 'SIA Moov';
+        $role = 'Programmēšanas inženieris';
+
         $employee = Employee::create(
             identityNumber: IdentityNumber::fromString('11111122222'),
             firstName: FirstName::fromString('Emīls'),
@@ -82,12 +88,17 @@ class EmployeeTest extends TestCase
         );
 
         $employment = $employee->addPreviousEmployment(
-            BusinessRegistrationNumber::fromString('LV55555222222')
+            businessRegistrationNumber: BusinessRegistrationNumber::fromString($registrationNumber),
+            businessName: BusinessName::fromString($businessName),
+            role: JobRole::fromString($role),
         );
 
         self::assertCount(1, $employee->previousEmployments());
         self::assertSame($employment, $employee->previousEmployments()[0]);
-        self::assertSame('LV55555222222', $employment->businessRegistrationNumber());
+
         self::assertInstanceOf(Ulid::class, $employment->id());
+        self::assertSame($registrationNumber, $employment->businessRegistrationNumber());
+        self::assertSame($businessName, $employment->businessName());
+        self::assertSame($role, $employment->role());
     }
 }

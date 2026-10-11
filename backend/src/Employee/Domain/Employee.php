@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Employee\Domain;
 
+use App\Employee\Domain\PreviousEmployment\BusinessName;
 use App\Employee\Domain\PreviousEmployment\BusinessRegistrationNumber;
+use App\Employee\Domain\PreviousEmployment\JobRole;
 use App\Employee\Domain\PreviousEmployment\PreviousEmployment;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -161,10 +163,14 @@ class Employee
 
     public function addPreviousEmployment(
         BusinessRegistrationNumber $businessRegistrationNumber,
+        BusinessName $businessName,
+        JobRole $role,
     ): PreviousEmployment {
         $employment = PreviousEmployment::create(
             employee: $this,
             businessRegistrationNumber: $businessRegistrationNumber,
+            businessName: $businessName,
+            role: $role,
         );
 
         $this->previousEmployments->add($employment);
