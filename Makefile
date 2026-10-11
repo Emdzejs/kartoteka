@@ -10,3 +10,6 @@ up:
 
 down:
 	docker compose down
+
+enter-backend-container:
+	docker compose exec backend sh
