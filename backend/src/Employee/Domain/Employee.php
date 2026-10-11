@@ -16,6 +16,9 @@ class Employee
     #[ORM\Column(type: UlidType::NAME)]
     private Ulid $id;
 
+    #[ORM\Column(length: IdentityNumber::LENGTH, unique: true)]
+    private string $identityNumber;
+
     #[ORM\Column(length: FirstName::MAX_LENGTH)]
     private string $firstName;
 
@@ -29,12 +32,14 @@ class Employee
     private string $phoneNumber;
 
     private function __construct(
+        IdentityNumber $identityNumber,
         FirstName $firstName,
         LastName $lastName,
         Email $email,
         PhoneNumber $phoneNumber,
     ) {
         $this->id = new Ulid();
+        $this->identityNumber = $identityNumber->value;
         $this->firstName = $firstName->value;
         $this->lastName = $lastName->value;
         $this->email = $email->value;
@@ -42,12 +47,14 @@ class Employee
     }
 
     public static function create(
+        IdentityNumber $identityNumber,
         FirstName $firstName,
         LastName $lastName,
         Email $email,
         PhoneNumber $phoneNumber,
     ): self {
         return new self(
+            $identityNumber,
             $firstName,
             $lastName,
             $email,
@@ -58,6 +65,11 @@ class Employee
     public function id(): Ulid
     {
         return $this->id;
+    }
+
+    public function identityNumber(): string
+    {
+        return $this->identityNumber;
     }
 
     public function firstName(): string
