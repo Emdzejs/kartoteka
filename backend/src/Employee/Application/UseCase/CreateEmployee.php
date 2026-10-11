@@ -79,7 +79,8 @@ final readonly class CreateEmployee
     private static function parseDate(string $value): DateTimeImmutable
     {
         $date = DateTimeImmutable::createFromFormat('!Y-m-d', $value);
-        if (!$date) {
+        // Preventing cases when date is formatted but as a different date
+        if (!$date || $date->format('Y-m-d') !== $value) {
             throw new InvalidArgumentException('Date must be in Y-m-d format');
         }
 

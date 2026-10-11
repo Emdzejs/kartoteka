@@ -7,6 +7,9 @@ namespace App\Employee\Application\UseCase;
 
 final class CreateEmployeeInput
 {
+    /**
+     * @param PreviousEmploymentInput[] $previousEmployments
+     */
     public function __construct(
         public string $identityNumber,
         public string $firstName,
@@ -19,9 +22,6 @@ final class CreateEmployeeInput
         public string $city,
         public string $street,
         public string $streetNumber,
-        /**
-         * @var PreviousEmploymentInput[]
-         */
         public array $previousEmployments = [],
     ) {
     }
