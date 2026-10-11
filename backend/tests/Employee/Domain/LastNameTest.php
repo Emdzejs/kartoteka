@@ -8,22 +8,21 @@ use PHPUnit\Framework\TestCase;
 
 class LastNameTest extends TestCase
 {
-
     public function testFromStringCreatesValidLastName(): void
     {
         $input = 'Liepa';
-        $LastName = LastName::fromString($input);
+        $lastName = LastName::fromString($input);
 
-        self::assertSame($input, $LastName->value);
+        self::assertSame($input, $lastName->value);
     }
 
 
     public function testFromStringTrimsWhitespace(): void
     {
         $input = 'Liepa';
-        $LastName = LastName::fromString(sprintf('     %s        ', $input));
+        $lastName = LastName::fromString(sprintf('     %s        ', $input));
 
-        self::assertSame($input, $LastName->value);
+        self::assertSame($input, $lastName->value);
     }
 
     public function testFromStringThrowsExceptionWhenEmpty(): void
