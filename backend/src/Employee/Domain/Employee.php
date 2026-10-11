@@ -25,6 +25,9 @@ class Employee
     #[ORM\Column(length: LastName::MAX_LENGTH)]
     private string $lastName;
 
+    #[ORM\Column(length: 6, enumType: Gender::class)]
+    private Gender $gender;
+
     #[ORM\Column(length: Email::MAX_LENGTH)]
     private string $email;
 
@@ -35,6 +38,7 @@ class Employee
         IdentityNumber $identityNumber,
         FirstName $firstName,
         LastName $lastName,
+        Gender $gender,
         Email $email,
         PhoneNumber $phoneNumber,
     ) {
@@ -42,6 +46,7 @@ class Employee
         $this->identityNumber = $identityNumber->value;
         $this->firstName = $firstName->value;
         $this->lastName = $lastName->value;
+        $this->gender = $gender;
         $this->email = $email->value;
         $this->phoneNumber = $phoneNumber->value;
     }
@@ -50,15 +55,17 @@ class Employee
         IdentityNumber $identityNumber,
         FirstName $firstName,
         LastName $lastName,
+        Gender $gender,
         Email $email,
         PhoneNumber $phoneNumber,
     ): self {
         return new self(
-            $identityNumber,
-            $firstName,
-            $lastName,
-            $email,
-            $phoneNumber,
+            identityNumber: $identityNumber,
+            firstName: $firstName,
+            lastName: $lastName,
+            gender: $gender,
+            email: $email,
+            phoneNumber: $phoneNumber,
         );
     }
 
@@ -80,6 +87,11 @@ class Employee
     public function lastName(): string
     {
         return $this->lastName;
+    }
+
+    public function gender(): Gender
+    {
+        return $this->gender;
     }
 
     public function email(): string

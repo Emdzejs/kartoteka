@@ -5,6 +5,7 @@ namespace App\Tests\Employee\Domain;
 use App\Employee\Domain\Email;
 use App\Employee\Domain\Employee;
 use App\Employee\Domain\FirstName;
+use App\Employee\Domain\Gender;
 use App\Employee\Domain\IdentityNumber;
 use App\Employee\Domain\LastName;
 use App\Employee\Domain\PhoneNumber;
@@ -18,6 +19,7 @@ class EmployeeTest extends TestCase
         $identityNumber = '11111122222';
         $firstName = 'Emīls';
         $lastName = 'Liepa';
+        $gender = Gender::MALE;
         $email = 'emils@example.test';
         $phoneNumber = '+37122222222';
 
@@ -25,6 +27,7 @@ class EmployeeTest extends TestCase
             identityNumber: IdentityNumber::fromString($identityNumber),
             firstName: FirstName::fromString($firstName),
             lastName: LastName::fromString($lastName),
+            gender: $gender,
             email: Email::fromString($email),
             phoneNumber: PhoneNumber::fromString($phoneNumber),
         );
@@ -33,6 +36,7 @@ class EmployeeTest extends TestCase
         self::assertSame($identityNumber, $employee->identityNumber());
         self::assertSame($firstName, $employee->firstName());
         self::assertSame($lastName, $employee->lastName());
+        self::assertSame($gender, $employee->gender());
         self::assertSame($email, $employee->email());
         self::assertSame($phoneNumber, $employee->phoneNumber());
     }
