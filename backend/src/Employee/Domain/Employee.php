@@ -126,6 +126,11 @@ class Employee
         return $this->lastName;
     }
 
+    public function fullName(): string
+    {
+        return "$this->firstName $this->lastName";
+    }
+
     public function gender(): Gender
     {
         return $this->gender;

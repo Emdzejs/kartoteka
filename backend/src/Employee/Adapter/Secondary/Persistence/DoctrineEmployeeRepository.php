@@ -31,8 +31,15 @@ final readonly class DoctrineEmployeeRepository implements EmployeeRepository
 
     public function existsByIdentityNumber(IdentityNumber $identityNumber): bool
     {
-        return null !== $this->entityManager
+        return $this->entityManager
                 ->getRepository(Employee::class)
-                ->findOneBy(['identityNumber' => $identityNumber->value]);
+                ->findOneBy(['identityNumber' => $identityNumber->value]) !== null;
+    }
+
+    public function findAll(): array
+    {
+        return $this->entityManager
+            ->getRepository(Employee::class)
+            ->findAll();
     }
 }

@@ -43,8 +43,7 @@ final readonly class ShowEmployeeController
         return new JsonResponse([
             'id' => (string) $employee->id(),
             'identityNumber' => $employee->identityNumber(),
-            'firstName' => $employee->firstName(),
-            'lastName' => $employee->lastName(),
+            'fullName' => $employee->fullName(),
             'gender' => $employee->gender()->value,
             'email' => $employee->email(),
             'phoneNumber' => $employee->phoneNumber(),
