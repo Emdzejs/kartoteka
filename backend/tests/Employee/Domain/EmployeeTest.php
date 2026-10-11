@@ -2,6 +2,7 @@
 
 namespace App\Tests\Employee\Domain;
 
+use App\Employee\Domain\Address;
 use App\Employee\Domain\Email;
 use App\Employee\Domain\Employee;
 use App\Employee\Domain\FirstName;
@@ -23,6 +24,10 @@ class EmployeeTest extends TestCase
         $email = 'emils@example.test';
         $phoneNumber = '+37122222222';
 
+        $addressCity = 'Rīga';
+        $addressStreet = 'Piena iela';
+        $addressStreetNumber = '5A';
+
         $employee = Employee::create(
             identityNumber: IdentityNumber::fromString($identityNumber),
             firstName: FirstName::fromString($firstName),
@@ -30,6 +35,13 @@ class EmployeeTest extends TestCase
             gender: $gender,
             email: Email::fromString($email),
             phoneNumber: PhoneNumber::fromString($phoneNumber),
+            address: Address::create(
+                countryCode: 'lv',
+                postalCode: 'lv-1111',
+                city: $addressCity,
+                street: $addressStreet,
+                streetNumber: $addressStreetNumber,
+            ),
         );
 
         self::assertInstanceOf(Ulid::class, $employee->id());
@@ -39,5 +51,10 @@ class EmployeeTest extends TestCase
         self::assertSame($gender, $employee->gender());
         self::assertSame($email, $employee->email());
         self::assertSame($phoneNumber, $employee->phoneNumber());
+        self::assertSame('LV', $employee->address()->countryCode());
+        self::assertSame('LV-1111', $employee->address()->postalCode());
+        self::assertSame($addressCity, $employee->address()->city());
+        self::assertSame($addressStreet, $employee->address()->street());
+        self::assertSame($addressStreetNumber, $employee->address()->streetNumber());
     }
 }

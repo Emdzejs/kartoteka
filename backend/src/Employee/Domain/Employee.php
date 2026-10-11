@@ -34,6 +34,9 @@ class Employee
     #[ORM\Column(length: PhoneNumber::MAX_LENGTH)]
     private string $phoneNumber;
 
+    #[ORM\Embedded(class: Address::class)]
+    private Address $address;
+
     private function __construct(
         IdentityNumber $identityNumber,
         FirstName $firstName,
@@ -41,6 +44,7 @@ class Employee
         Gender $gender,
         Email $email,
         PhoneNumber $phoneNumber,
+        Address $address,
     ) {
         $this->id = new Ulid();
         $this->identityNumber = $identityNumber->value;
@@ -49,6 +53,7 @@ class Employee
         $this->gender = $gender;
         $this->email = $email->value;
         $this->phoneNumber = $phoneNumber->value;
+        $this->address = $address;
     }
 
     public static function create(
@@ -58,6 +63,7 @@ class Employee
         Gender $gender,
         Email $email,
         PhoneNumber $phoneNumber,
+        Address $address,
     ): self {
         return new self(
             identityNumber: $identityNumber,
@@ -66,6 +72,7 @@ class Employee
             gender: $gender,
             email: $email,
             phoneNumber: $phoneNumber,
+            address: $address,
         );
     }
 
@@ -102,5 +109,10 @@ class Employee
     public function phoneNumber(): string
     {
         return $this->phoneNumber;
+    }
+
+    public function address(): Address
+    {
+        return $this->address;
     }
 }

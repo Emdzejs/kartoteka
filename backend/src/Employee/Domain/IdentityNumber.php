@@ -20,7 +20,9 @@ final readonly class IdentityNumber
         $value = self::normalize(trim($value));
 
         if (strlen($value) !== self::LENGTH || !ctype_digit($value)) {
-            throw new InvalidArgumentException('Identity number must have 11 digits');
+            throw new InvalidArgumentException(
+                sprintf('Identity number must have %d digits', self::LENGTH)
+            );
         }
 
         return new self($value);
