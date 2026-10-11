@@ -11,19 +11,19 @@ class LastNameTest extends TestCase
 
     public function testFromStringCreatesValidLastName(): void
     {
-        $inputName = 'Liepa';
-        $LastName = LastName::fromString($inputName);
+        $input = 'Liepa';
+        $LastName = LastName::fromString($input);
 
-        self::assertSame($inputName, $LastName->value);
+        self::assertSame($input, $LastName->value);
     }
 
 
     public function testFromStringTrimsWhitespace(): void
     {
-        $inputName = 'Liepa';
-        $LastName = LastName::fromString(sprintf('     %s        ', $inputName));
+        $input = 'Liepa';
+        $LastName = LastName::fromString(sprintf('     %s        ', $input));
 
-        self::assertSame($inputName, $LastName->value);
+        self::assertSame($input, $LastName->value);
     }
 
     public function testFromStringThrowsExceptionWhenEmpty(): void
