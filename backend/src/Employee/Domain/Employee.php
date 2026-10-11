@@ -6,6 +6,7 @@ namespace App\Employee\Domain;
 
 use App\Employee\Domain\PreviousEmployment\BusinessName;
 use App\Employee\Domain\PreviousEmployment\BusinessRegistrationNumber;
+use App\Employee\Domain\PreviousEmployment\EmploymentPeriod;
 use App\Employee\Domain\PreviousEmployment\JobRole;
 use App\Employee\Domain\PreviousEmployment\PreviousEmployment;
 use DateTimeImmutable;
@@ -165,12 +166,16 @@ class Employee
         BusinessRegistrationNumber $businessRegistrationNumber,
         BusinessName $businessName,
         JobRole $role,
+        EmploymentPeriod $period,
+        Address $businessAddress,
     ): PreviousEmployment {
         $employment = PreviousEmployment::create(
             employee: $this,
             businessRegistrationNumber: $businessRegistrationNumber,
             businessName: $businessName,
             role: $role,
+            period: $period,
+            businessAddress: $businessAddress,
         );
 
         $this->previousEmployments->add($employment);

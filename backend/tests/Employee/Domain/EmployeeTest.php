@@ -12,6 +12,7 @@ use App\Employee\Domain\LastName;
 use App\Employee\Domain\PhoneNumber;
 use App\Employee\Domain\PreviousEmployment\BusinessName;
 use App\Employee\Domain\PreviousEmployment\BusinessRegistrationNumber;
+use App\Employee\Domain\PreviousEmployment\EmploymentPeriod;
 use App\Employee\Domain\PreviousEmployment\JobRole;
 use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
@@ -70,6 +71,10 @@ class EmployeeTest extends TestCase
         $registrationNumber = 'LV55555222222';
         $businessName = 'SIA Moov';
         $role = 'Programmēšanas inženieris';
+        $period = EmploymentPeriod::create(
+            startDate: new DateTimeImmutable('2024-01-01'),
+            endDate: new DateTimeImmutable('2025-10-10'),
+        );
 
         $employee = Employee::create(
             identityNumber: IdentityNumber::fromString('11111122222'),
@@ -87,10 +92,20 @@ class EmployeeTest extends TestCase
             ),
         );
 
+        $businessAddress = Address::create(
+            countryCode: 'LV',
+            postalCode: 'LV-1111',
+            city: 'Rīga',
+            street: 'Piena iela',
+            streetNumber: '5A',
+        );
+
         $employment = $employee->addPreviousEmployment(
             businessRegistrationNumber: BusinessRegistrationNumber::fromString($registrationNumber),
             businessName: BusinessName::fromString($businessName),
             role: JobRole::fromString($role),
+            period: $period,
+            businessAddress: $businessAddress,
         );
 
         self::assertCount(1, $employee->previousEmployments());
@@ -100,5 +115,12 @@ class EmployeeTest extends TestCase
         self::assertSame($registrationNumber, $employment->businessRegistrationNumber());
         self::assertSame($businessName, $employment->businessName());
         self::assertSame($role, $employment->role());
+
+        self::assertSame($period, $employment->period());
+
+        self::assertSame($businessAddress, $employment->businessAddress());
+
+        self::assertInstanceOf(DateTimeImmutable::class, $employment->createdAt());
+        self::assertSame($employment->createdAt(), $employment->updatedAt());
     }
 }
