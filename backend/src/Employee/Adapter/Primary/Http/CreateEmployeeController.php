@@ -13,7 +13,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Attribute\Route;
-use ValueError;
 
 final readonly class CreateEmployeeController
 {
@@ -31,7 +30,7 @@ final readonly class CreateEmployeeController
                 ['error' => $exception->getMessage()],
                 Response::HTTP_CONFLICT,
             );
-        } catch (InvalidArgumentException|ValueError $exception) {
+        } catch (InvalidArgumentException $exception) {
             return new JsonResponse(
                 ['error' => $exception->getMessage()],
                 Response::HTTP_UNPROCESSABLE_ENTITY,

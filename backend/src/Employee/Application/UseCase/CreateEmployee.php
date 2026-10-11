@@ -40,7 +40,7 @@ final readonly class CreateEmployee
             identityNumber: $identityNumber,
             firstName: FirstName::fromString($input->firstName),
             lastName: LastName::fromString($input->lastName),
-            gender: Gender::from($input->gender),
+            gender: Gender::tryFrom($input->gender) ?? throw new InvalidArgumentException('Invalid gender'),
             email: Email::fromString($input->email),
             phoneNumber: PhoneNumber::fromString($input->phoneNumber),
             address: Address::create(
