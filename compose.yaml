@@ -1,0 +1,31 @@
+services:
+  backend:
+    build:
+      context: ./backend
+    volumes:
+      - ./backend:/app
+    environment:
+      APP_ENV: dev
+      DATABASE_URL: "postgresql://kartoteka:kartoteka_dev@database:5432/kartoteka?serverVersion=18&charset=utf8"
+    ports:
+      - "127.0.0.1:8000:8000"
+    depends_on:
+      database:
+        condition: service_healthy
+
+  database:
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_DB: kartoteka
+      POSTGRES_USER: kartoteka
+      POSTGRES_PASSWORD: kartoteka_dev
+    volumes:
+      - postgres_db:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U kartoteka -d kartoteka"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  postgres_db:
