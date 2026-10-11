@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Employee\Domain;
 
+use DateTimeImmutable;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Types\UlidType;
 use Symfony\Component\Uid\Ulid;
@@ -37,6 +39,12 @@ class Employee
     #[ORM\Embedded(class: Address::class)]
     private Address $address;
 
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
+    private DateTimeImmutable $createdAt;
+
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
+    private DateTimeImmutable $updatedAt;
+
     private function __construct(
         IdentityNumber $identityNumber,
         FirstName $firstName,
@@ -54,6 +62,10 @@ class Employee
         $this->email = $email->value;
         $this->phoneNumber = $phoneNumber->value;
         $this->address = $address;
+
+        $now = new DateTimeImmutable();
+        $this->createdAt = $now;
+        $this->updatedAt = $now;
     }
 
     public static function create(
@@ -114,5 +126,15 @@ class Employee
     public function address(): Address
     {
         return $this->address;
+    }
+
+    public function createdAt(): DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function updatedAt(): DateTimeImmutable
+    {
+        return $this->updatedAt;
     }
 }

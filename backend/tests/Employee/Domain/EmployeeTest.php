@@ -10,6 +10,7 @@ use App\Employee\Domain\Gender;
 use App\Employee\Domain\IdentityNumber;
 use App\Employee\Domain\LastName;
 use App\Employee\Domain\PhoneNumber;
+use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Uid\Ulid;
 
@@ -56,5 +57,8 @@ class EmployeeTest extends TestCase
         self::assertSame($addressCity, $employee->address()->city());
         self::assertSame($addressStreet, $employee->address()->street());
         self::assertSame($addressStreetNumber, $employee->address()->streetNumber());
+        self::assertInstanceOf(DateTimeImmutable::class, $employee->createdAt());
+        self::assertSame($employee->createdAt(), $employee->updatedAt());
+        self::assertSame('UTC', $employee->createdAt()->getTimezone()->getName());
     }
 }
