@@ -17,14 +17,14 @@ final readonly class ListEmployees
     public function list(): array
     {
         return array_map(
-            static fn (Employee $employee): EmployeeSummary => new EmployeeSummary(
-                id: (string) $employee->id(),
-                identityNumber: $employee->identityNumber(),
-                fullName: $employee->fullName(),
-                email: $employee->email(),
-                phoneNumber: $employee->phoneNumber(),
-                createdAt: $employee->createdAt()->format(DATE_ATOM),
-            ),
+            static fn (Employee $employee): array => [
+                'id' => (string) $employee->id(),
+                'identityNumber' => $employee->identityNumber(),
+                'fullName' => $employee->fullName(),
+                'email' => $employee->email(),
+                'phoneNumber' => $employee->phoneNumber(),
+                'createdAt' => $employee->createdAt()->format(DATE_ATOM),
+            ],
             $this->employeeRepository->findAll(),
         );
     }

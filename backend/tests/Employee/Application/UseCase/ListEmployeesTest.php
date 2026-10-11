@@ -2,7 +2,6 @@
 
 namespace App\Tests\Employee\Application\UseCase;
 
-use App\Employee\Application\UseCase\EmployeeSummary;
 use App\Employee\Application\UseCase\ListEmployees;
 use App\Employee\Domain\Address;
 use App\Employee\Domain\Email;
@@ -53,13 +52,13 @@ class ListEmployeesTest extends TestCase
 
         self::assertCount(1, $result);
         $summary = $result[0];
-        self::assertInstanceOf(EmployeeSummary::class, $summary);
+        self::assertIsArray($summary);
 
-        self::assertSame((string) $employee->id(), $summary->id);
-        self::assertSame($identityNumber, $summary->identityNumber);
-        self::assertSame("$firstName $lastName", $summary->fullName);
-        self::assertSame($phoneNumber, $summary->phoneNumber);
-        self::assertSame($email, $summary->email);
+        self::assertSame((string) $employee->id(), $summary['id']);
+        self::assertSame($identityNumber, $summary['identityNumber']);
+        self::assertSame("$firstName $lastName", $summary['fullName']);
+        self::assertSame($phoneNumber, $summary['phoneNumber']);
+        self::assertSame($email, $summary['email']);
     }
 
     public function testListReturnsEmptyArrayWhenNoEmployeesExist(): void

@@ -10,7 +10,7 @@ use Symfony\Component\Uid\Ulid;
 
 class ShowEmployeeTest extends TestCase
 {
-    public function testGetThrowsWhenEmployeeDoesNotExist(): void
+    public function testShowThrowsWhenEmployeeDoesNotExist(): void
     {
         $id = new Ulid();
 
@@ -26,6 +26,6 @@ class ShowEmployeeTest extends TestCase
 
         $this->expectException(EmployeeNotFoundException::class);
 
-        $useCase->get($id);
+        $useCase->show($id);
     }
 }
