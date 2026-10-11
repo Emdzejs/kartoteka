@@ -5,7 +5,6 @@ services:
     volumes:
       - ./backend:/app
     environment:
-      APP_ENV: dev
       DATABASE_URL: "postgresql://kartoteka:kartoteka_dev@database:5432/kartoteka?serverVersion=18&charset=utf8"
     ports:
       - "127.0.0.1:8000:8000"
