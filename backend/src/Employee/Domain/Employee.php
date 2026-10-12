@@ -106,6 +106,26 @@ class Employee
         );
     }
 
+    public function update(
+        IdentityNumber $identityNumber,
+        FirstName $firstName,
+        LastName $lastName,
+        Gender $gender,
+        Email $email,
+        PhoneNumber $phoneNumber,
+        Address $address,
+    ): void {
+        $this->identityNumber = $identityNumber->value;
+        $this->firstName = $firstName->value;
+        $this->lastName = $lastName->value;
+        $this->gender = $gender;
+        $this->email = $email->value;
+        $this->phoneNumber = $phoneNumber->value;
+        $this->address = $address;
+
+        $this->updatedAt = new DateTimeImmutable();
+    }
+
     public function id(): Ulid
     {
         return $this->id;
@@ -187,5 +207,46 @@ class Employee
         $this->updatedAt = new DateTimeImmutable();
 
         return $employment;
+    }
+
+    public function updatePreviousEmployment(
+        Ulid $id,
+        BusinessName $businessName,
+        BusinessRegistrationNumber $businessRegistrationNumber,
+        JobRole $role,
+        EmploymentPeriod $period,
+        Address $businessAddress,
+    ): void {
+        foreach ($this->previousEmployments as $employment) {
+            if ((string) $employment->id() === (string) $id) {
+                $employment->update(
+                    $businessName,
+                    $businessRegistrationNumber,
+                    $role,
+                    $period,
+                    $businessAddress,
+                );
+
+                $this->updatedAt = new DateTimeImmutable();
+
+                return;
+            }
+        }
+
+        throw new PreviousEmploymentNotFound();
+    }
+
+    public function removePreviousEmployment(Ulid $id): void
+    {
+        foreach ($this->previousEmployments as $employment) {
+            if ((string) $employment->id() === (string) $id) {
+                $this->previousEmployments->removeElement($employment);
+                $this->updatedAt = new DateTimeImmutable();
+
+                return;
+            }
+        }
+
+        throw new PreviousEmploymentNotFound();
     }
 }

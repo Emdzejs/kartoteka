@@ -9,4 +9,8 @@ use RuntimeException;
 
 final class DuplicateIdentityNumberException extends RuntimeException
 {
+    public function __construct()
+    {
+        parent::__construct('An employee with this identity number already exists');
+    }
 }

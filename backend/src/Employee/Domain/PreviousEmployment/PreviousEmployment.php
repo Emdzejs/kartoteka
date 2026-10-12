@@ -84,6 +84,22 @@ class PreviousEmployment
         );
     }
 
+    public function update(
+        BusinessName $businessName,
+        BusinessRegistrationNumber $businessRegistrationNumber,
+        JobRole $role,
+        EmploymentPeriod $period,
+        Address $businessAddress,
+    ): void {
+        $this->businessName = $businessName->value;
+        $this->businessRegistrationNumber = $businessRegistrationNumber->value;
+        $this->role = $role->value;
+        $this->period = $period;
+        $this->businessAddress = $businessAddress;
+
+        $this->updatedAt = new DateTimeImmutable();
+    }
+
     public function id(): Ulid
     {
         return $this->id;

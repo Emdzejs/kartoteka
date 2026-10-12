@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Employee\Application\UseCase;
 
+use App\Employee\Application\DateParser;
 use App\Employee\Domain\Address;
 use App\Employee\Domain\Email;
 use App\Employee\Domain\Employee;
@@ -17,7 +18,6 @@ use App\Employee\Domain\PreviousEmployment\BusinessName;
 use App\Employee\Domain\PreviousEmployment\BusinessRegistrationNumber;
 use App\Employee\Domain\PreviousEmployment\EmploymentPeriod;
 use App\Employee\Domain\PreviousEmployment\JobRole;
-use DateTimeImmutable;
 use InvalidArgumentException;
 use Symfony\Component\Uid\Ulid;
 
@@ -33,7 +33,7 @@ final readonly class CreateEmployee
         $identityNumber = IdentityNumber::fromString($input->identityNumber);
 
         if ($this->employeeRepository->existsByIdentityNumber($identityNumber)) {
-            throw new DuplicateIdentityNumberException('An employee with this identity number already exists');
+            throw new DuplicateIdentityNumberException();
         }
 
         $employee = Employee::create(
@@ -58,8 +58,8 @@ final readonly class CreateEmployee
                 businessName: BusinessName::fromString($previousEmployment->businessName),
                 role: JobRole::fromString($previousEmployment->role),
                 period: EmploymentPeriod::create(
-                    self::parseDate($previousEmployment->startDate),
-                    self::parseDate($previousEmployment->endDate),
+                    DateParser::parse($previousEmployment->startDate),
+                    DateParser::parse($previousEmployment->endDate),
                 ),
                 businessAddress: Address::create(
                     countryCode: $previousEmployment->businessCountryCode,
@@ -74,16 +74,5 @@ final readonly class CreateEmployee
         $this->employeeRepository->save($employee);
 
         return $employee->id();
-    }
-
-    private static function parseDate(string $value): DateTimeImmutable
-    {
-        $date = DateTimeImmutable::createFromFormat('!Y-m-d', $value);
-        // Preventing cases when date is formatted but as a different date
-        if (!$date || $date->format('Y-m-d') !== $value) {
-            throw new InvalidArgumentException('Date must be in Y-m-d format');
-        }
-
-        return $date;
     }
 }
