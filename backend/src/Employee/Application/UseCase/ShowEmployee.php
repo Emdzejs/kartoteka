@@ -23,6 +23,8 @@ final readonly class ShowEmployee
             'id' => (string) $employee->id(),
             'identityNumber' => $employee->identityNumber(),
             'fullName' => $employee->fullName(),
+            'firstName' => $employee->firstName(),
+            'lastName' => $employee->lastName(),
             'gender' => $employee->gender()->value,
             'email' => $employee->email(),
             'phoneNumber' => $employee->phoneNumber(),

@@ -15,7 +15,7 @@ final readonly class ListEmployeesController
         private ListEmployees $listEmployees,
     ) {
     }
-    #[Route('/api/employees', name: 'api_employees_list', methods: ['GET'], format: 'json')]
+    #[Route('/api/employees', methods: ['GET'], format: 'json')]
     public function __invoke(): JsonResponse
     {
         return new JsonResponse($this->listEmployees->list());

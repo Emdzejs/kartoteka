@@ -21,7 +21,7 @@ final readonly class CreateEmployeeController
     ) {
     }
 
-    #[Route('/api/employees', name: 'api_employees_create', methods: ['POST'], format: 'json')]
+    #[Route('/api/employees', methods: ['POST'], format: 'json')]
     public function __invoke(#[MapRequestPayload(acceptFormat: 'json')] CreateEmployeeInput $input): JsonResponse {
         try {
             $id = $this->createEmployee->create($input);

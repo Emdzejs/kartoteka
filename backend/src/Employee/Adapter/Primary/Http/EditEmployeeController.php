@@ -23,7 +23,7 @@ final readonly class EditEmployeeController
     ) {
     }
 
-    #[Route('/api/employees/{id}', name: 'api_employees_edit', methods: ['PUT'], format: 'json',)]
+    #[Route('/api/employees/{id}', methods: ['PUT'], format: 'json',)]
     public function __invoke(string $id, #[MapRequestPayload(acceptFormat: 'json')] EditEmployeeInput $input): Response
     {
         if (!Ulid::isValid($id, Ulid::FORMAT_BASE_32 | Ulid::FORMAT_RFC_4122)) {

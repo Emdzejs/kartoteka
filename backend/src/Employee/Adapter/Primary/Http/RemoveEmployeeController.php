@@ -19,7 +19,7 @@ final readonly class RemoveEmployeeController
     ) {
     }
 
-    #[Route('/api/employees/{id}', name: 'api_employees_delete', methods: ['DELETE'], format: 'json')]
+    #[Route('/api/employees/{id}', methods: ['DELETE'], format: 'json')]
     public function __invoke(string $id): Response
     {
         if (!Ulid::isValid($id, Ulid::FORMAT_BASE_32 | Ulid::FORMAT_RFC_4122)) {

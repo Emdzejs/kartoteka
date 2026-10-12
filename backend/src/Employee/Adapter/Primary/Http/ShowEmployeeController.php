@@ -19,7 +19,7 @@ final readonly class ShowEmployeeController
     ) {
     }
 
-    #[Route('/api/employees/{id}', name: 'api_employees_get', methods: ['GET'], format: 'json')]
+    #[Route('/api/employees/{id}', methods: ['GET'], format: 'json')]
     public function __invoke(string $id): JsonResponse
     {
         // RFC_4122 support to allow searching by the format the ID is stored in DB
