@@ -172,18 +172,18 @@ watch(
           class="section background-secondary text-center"
         >
           <div class="employment-list">
-            <h3>{{ employment.role }} ({{ formatDate(employment.startDate) }} - {{ formatDate(employment.endDate) }})</h3>
+            <h3>{{ employment.role }} <span class="text-muted">({{ formatDate(employment.startDate) }} - {{ formatDate(employment.endDate) }})</span></h3>
             <dl class="details-grid">
               <div>
-                <dt>Business name</dt>
+                <dt>Uzņēmuma nosaukums</dt>
                 <dd>{{ employment.businessName }}</dd>
               </div>
               <div>
-                <dt>Registration number</dt>
+                <dt>Reģistrācijas numurs</dt>
                 <dd>{{ employment.businessRegistrationNumber }}</dd>
               </div>
               <div>
-                <dt>Business address</dt>
+                <dt>Uzņēmuma adrese</dt>
                 <dd>
                   {{ employment.businessCountryCode }},
                   {{ employment.businessCity }},
