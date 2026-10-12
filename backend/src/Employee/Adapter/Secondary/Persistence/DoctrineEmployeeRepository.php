@@ -42,4 +42,10 @@ final readonly class DoctrineEmployeeRepository implements EmployeeRepository
             ->getRepository(Employee::class)
             ->findAll();
     }
+
+    public function delete(Employee $employee): void
+    {
+        $this->entityManager->remove($employee);
+        $this->entityManager->flush();
+    }
 }

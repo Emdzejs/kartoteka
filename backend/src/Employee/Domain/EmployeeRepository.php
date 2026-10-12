@@ -14,4 +14,5 @@ interface EmployeeRepository
      * @return Employee[]
      */
     public function findAll(): array;
+    public function delete(Employee $employee): void;
 }
