@@ -2,6 +2,7 @@ setup:
 	docker compose build
 	docker compose up -d --wait database
 	docker compose run --rm --no-deps backend composer install
+	docker compose run --rm --no-deps frontend npm ci
 	docker compose up -d --wait
 	docker compose exec backend php bin/console doctrine:migrations:migrate --no-interaction
 	docker compose exec backend php bin/console --env=test doctrine:database:create --if-not-exists
