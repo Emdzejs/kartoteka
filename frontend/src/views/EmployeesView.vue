@@ -2,12 +2,13 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { getEmployees, type EmployeeSummary } from '@/api/employeesApi'
-import {formatTimeAgo} from "@/utils/dateHelper.ts";
 import {formatIdentityNumber} from "@/utils/identityNumberHelper.ts";
+import {deleteEmployeeWithConfirm} from "@/utils/deleteHelper.ts";
 
 const employees = ref<EmployeeSummary[]>([])
 const loading = ref(false)
 const error = ref<string | null>(null)
+const deletingId = ref<string | null>(null)
 
 async function loadEmployees() {
   loading.value = true
@@ -22,6 +23,25 @@ async function loadEmployees() {
   }
 }
 
+async function handleDelete(employee: EmployeeSummary) {
+  if (deletingId.value !== null) return
+
+  deletingId.value = employee.id
+  error.value = null
+
+  try {
+    const deleted = await deleteEmployeeWithConfirm(employee.id, employee.fullName)
+
+    if (deleted) {
+      await loadEmployees()
+    }
+  } catch (err) {
+    error.value = err instanceof Error ? err.message : 'Neizdevās dzēst darbinieku'
+  } finally {
+    deletingId.value = null
+  }
+}
+
 onMounted(loadEmployees)
 </script>
 
@@ -30,10 +50,10 @@ onMounted(loadEmployees)
     <div class="header">
       <h1>Darbinieki</h1>
       <div>
-        <RouterLink :to="{ name: 'employee-create' }" class="button">
+        <RouterLink :to="{ name: 'employee-create' }" class="button button-success">
           Pievienot darbinieku
         </RouterLink>
-        <button type="button" :disabled="loading" @click="loadEmployees">
+        <button type="button" class="button-outline" :disabled="loading" @click="loadEmployees">
           Ielādēt vēlreiz
         </button>
       </div>
@@ -58,7 +78,7 @@ onMounted(loadEmployees)
             <th>Vārds</th>
             <th>Personas kods</th>
             <th>Kontakti</th>
-            <th></th>
+            <th/>
           </tr>
           </thead>
 
@@ -75,12 +95,21 @@ onMounted(loadEmployees)
               <small class="text-muted">{{ employee.email }}</small>
             </td>
             <td>
-              <small class="text-muted">
-                Izveidots {{ formatTimeAgo(employee.createdAt) }} <br/>
-                <span v-if="employee.createdAt !== employee.updatedAt">
-                  Pēdējo reizi atjaunots {{ formatTimeAgo(employee.updatedAt) }}
-                </span>
-              </small>
+              <RouterLink :to="{ name: 'employee-details', params: { id: employee.id } }" class="button">
+                Atvērt
+              </RouterLink>
+
+              <RouterLink :to="{ name: 'employee-edit', params: { id: employee.id } }" class="button button-warning">
+                Rediģēt
+              </RouterLink>
+              <button
+                type="button"
+                class="button-danger"
+                :disabled="deletingId !== null"
+                @click.stop="handleDelete(employee)"
+              >
+                Dzēst
+              </button>
             </td>
           </tr>
           </tbody>

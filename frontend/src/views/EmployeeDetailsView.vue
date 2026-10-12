@@ -1,16 +1,18 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
-import { getEmployee, type EmployeeDetails } from '@/api/employeesApi'
+import {getEmployee, type EmployeeDetails} from '@/api/employeesApi'
 import { formatIdentityNumber } from '@/utils/identityNumberHelper'
 import {formatDate, formatTimeAgo} from '@/utils/dateHelper'
 import {formatGender} from "@/utils/genderHelper.ts";
+import router from "@/router";
+import {deleteEmployeeWithConfirm} from "@/utils/deleteHelper.ts";
 
 const route = useRoute()
-
 const employee = ref<EmployeeDetails | null>(null)
 const loading = ref(true)
 const error = ref<string | null>(null)
+const isDeleting = ref(false)
 
 async function loadEmployee(id: string) {
   loading.value = true
@@ -23,6 +25,27 @@ async function loadEmployee(id: string) {
     error.value = err instanceof Error ? err.message : 'Radās kļūda saņemot datus'
   } finally {
     loading.value = false
+  }
+}
+async function handleDelete() {
+  if (!employee.value || isDeleting.value) return
+
+  isDeleting.value = true
+  error.value = null
+
+  try {
+    const deleted = await deleteEmployeeWithConfirm(
+      employee.value.id,
+      employee.value.fullName,
+    )
+
+    if (deleted) {
+      await router.push({ name: 'employees' })
+    }
+  } catch (err) {
+    error.value = err instanceof Error ? err.message : 'Neizdevās dzēst darbinieku'
+  } finally {
+    isDeleting.value = false
   }
 }
 
@@ -48,10 +71,19 @@ watch(
         <div>
           <RouterLink
             :to="{ name: 'employee-edit', params: { id: employee.id } }"
-            class="button"
+            class="button button-warning"
           >
             Rediģēt
           </RouterLink>
+
+          <button
+            type="button"
+            class="button button-danger"
+            :disabled="isDeleting"
+            @click="handleDelete"
+          >
+            {{ isDeleting ? 'Dzēš...' : 'Dzēst' }}
+          </button>
         </div>
       </div>
     </template>

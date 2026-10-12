@@ -10,7 +10,8 @@
   --color-danger-darken: #c63e3e;
   --color-success: #b8d861;
   --color-success-darken: #adca5f;
-
+  --color-warning: #ffb575;
+  --color-warning-darken: #e09c62;
   --border-radius: 6px;
 
   font-family: 'Montserrat', sans-serif;
@@ -74,6 +75,10 @@ button, .button {
   cursor: pointer;
 }
 
+button:hover:not(:disabled) {
+  background: var(--color-accent-darken);
+}
+
 .button-outline {
   color: var(--color-accent);
   background: transparent;
@@ -88,21 +93,26 @@ button, .button {
   background: var(--color-success);
 }
 
-.button-danger {
-  background: var(--color-danger);
-}
-
-button:hover:not(:disabled) {
-  background: var(--color-accent-darken);
-}
-
 .button-success:hover:not(:disabled) {
   background: var(--color-success-darken);
+}
+
+.button-danger {
+  background: var(--color-danger);
 }
 
 .button-danger:hover:not(:disabled) {
   background: var(--color-danger-darken);
 }
+
+.button-warning {
+  background: var(--color-warning);
+}
+
+.button-warning:hover:not(:disabled) {
+  background: var(--color-warning-darken);
+}
+
 
 button:disabled {
   opacity: 0.5;
@@ -184,6 +194,10 @@ tbody tr:hover {
 
 .background-success {
   background-color: var(--color-success);
+}
+
+.background-warning {
+  background-color: var(--color-warning);
 }
 
 @media (max-width: 640px) {

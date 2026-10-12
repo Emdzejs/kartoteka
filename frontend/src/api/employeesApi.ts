@@ -136,3 +136,13 @@ export async function updateEmployee(
     throw new Error('Neizdevās rediģēt darbinieku')
   }
 }
+
+export async function deleteEmployee(id: string): Promise<void> {
+  const response = await fetch(`/api/employees/${encodeURIComponent(id)}`, {
+    method: 'DELETE',
+  })
+
+  if (!response.ok) {
+    throw new Error('Neizdevās dzēst darbinieku')
+  }
+}
