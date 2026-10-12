@@ -2,10 +2,10 @@
 
 namespace App\Tests\Employee\Application\UseCase;
 
-use App\Employee\Application\UseCase\EmployeeNotFoundException;
+use App\Employee\Application\Exception\EmployeeNotFoundException;
+use App\Employee\Application\Input\EditEmployeeInput;
+use App\Employee\Application\Input\EditPreviousEmploymentInput;
 use App\Employee\Application\UseCase\EditEmployee;
-use App\Employee\Application\UseCase\EditEmployeeInput;
-use App\Employee\Application\UseCase\EditPreviousEmploymentInput;
 use App\Employee\Domain\Address;
 use App\Employee\Domain\Email;
 use App\Employee\Domain\Employee;

@@ -5,7 +5,7 @@ declare(strict_types=1);
 
 namespace App\Employee\Adapter\Primary\Http;
 
-use App\Employee\Application\UseCase\EmployeeNotFoundException;
+use App\Employee\Application\Exception\EmployeeNotFoundException;
 use App\Employee\Application\UseCase\RemoveEmployee;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;

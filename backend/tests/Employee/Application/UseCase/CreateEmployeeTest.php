@@ -2,10 +2,10 @@
 
 namespace App\Tests\Employee\Application\UseCase;
 
+use App\Employee\Application\Exception\DuplicateIdentityNumberException;
+use App\Employee\Application\Input\CreateEmployeeInput;
+use App\Employee\Application\Input\PreviousEmploymentInput;
 use App\Employee\Application\UseCase\CreateEmployee;
-use App\Employee\Application\UseCase\CreateEmployeeInput;
-use App\Employee\Application\UseCase\DuplicateIdentityNumberException;
-use App\Employee\Application\UseCase\PreviousEmploymentInput;
 use App\Employee\Domain\Employee;
 use App\Employee\Domain\EmployeeRepository;
 use App\Employee\Domain\IdentityNumber;

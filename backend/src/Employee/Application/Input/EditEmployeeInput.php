@@ -3,12 +3,12 @@
 declare(strict_types=1);
 
 
-namespace App\Employee\Application\UseCase;
+namespace App\Employee\Application\Input;
 
-final class CreateEmployeeInput
+final class EditEmployeeInput
 {
     /**
-     * @param PreviousEmploymentInput[] $previousEmployments
+     * @param EditPreviousEmploymentInput[] $previousEmployments
      */
     public function __construct(
         public string $identityNumber,
@@ -22,7 +22,7 @@ final class CreateEmployeeInput
         public string $city,
         public string $street,
         public string $streetNumber,
-        public array $previousEmployments = [],
+        public array $previousEmployments,
     ) {
     }
 }

@@ -5,10 +5,10 @@ declare(strict_types=1);
 
 namespace App\Employee\Adapter\Primary\Http;
 
-use App\Employee\Application\UseCase\DuplicateIdentityNumberException;
+use App\Employee\Application\Exception\DuplicateIdentityNumberException;
+use App\Employee\Application\Exception\EmployeeNotFoundException;
+use App\Employee\Application\Input\EditEmployeeInput;
 use App\Employee\Application\UseCase\EditEmployee;
-use App\Employee\Application\UseCase\EditEmployeeInput;
-use App\Employee\Application\UseCase\EmployeeNotFoundException;
 use InvalidArgumentException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;

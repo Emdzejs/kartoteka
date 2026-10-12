@@ -2,7 +2,7 @@
 
 namespace App\Tests\Employee\Application\UseCase;
 
-use App\Employee\Application\UseCase\EmployeeNotFoundException;
+use App\Employee\Application\Exception\EmployeeNotFoundException;
 use App\Employee\Application\UseCase\ShowEmployee;
 use App\Employee\Domain\EmployeeRepository;
 use PHPUnit\Framework\TestCase;

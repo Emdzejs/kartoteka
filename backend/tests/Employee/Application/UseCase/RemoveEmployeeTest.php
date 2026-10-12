@@ -2,7 +2,7 @@
 
 namespace App\Tests\Employee\Application\UseCase;
 
-use App\Employee\Application\UseCase\EmployeeNotFoundException;
+use App\Employee\Application\Exception\EmployeeNotFoundException;
 use App\Employee\Application\UseCase\RemoveEmployee;
 use App\Employee\Domain\Address;
 use App\Employee\Domain\Email;

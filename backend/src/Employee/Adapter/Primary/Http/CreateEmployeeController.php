@@ -5,9 +5,9 @@ declare(strict_types=1);
 
 namespace App\Employee\Adapter\Primary\Http;
 
+use App\Employee\Application\Exception\DuplicateIdentityNumberException;
+use App\Employee\Application\Input\CreateEmployeeInput;
 use App\Employee\Application\UseCase\CreateEmployee;
-use App\Employee\Application\UseCase\CreateEmployeeInput;
-use App\Employee\Application\UseCase\DuplicateIdentityNumberException;
 use InvalidArgumentException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;

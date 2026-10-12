@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Employee\Application\UseCase;
 
+use App\Employee\Application\Exception\EmployeeNotFoundException;
 use App\Employee\Domain\EmployeeRepository;
 use App\Employee\Domain\PreviousEmployment\PreviousEmployment;
 use Symfony\Component\Uid\Ulid;
