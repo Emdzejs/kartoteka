@@ -69,30 +69,35 @@ watch(
 
         <div>
           <h1>{{ employee.fullName }}</h1>
-          <p>{{ formatIdentityNumber(employee.identityNumber) }}</p>
         </div>
 
         <div>
-          <div class="no-print">
+          <div class="action-buttons no-print">
             <RouterLink
               :to="{ name: 'employee-edit', params: { id: employee.id } }"
               class="button button-warning"
+              aria-label="Rediģēt darbinieku"
+              title="Rediģēt"
             >
-              Rediģēt
+              <span class="material-symbols-outlined" aria-hidden="true">edit</span>
             </RouterLink>
 
             <button
               type="button"
               class="button button-danger"
+              aria-label="Dzēst darbinieku"
+              title="Dzēst darbinieku"
               :disabled="isDeleting"
               @click="handleDelete"
             >
-              {{ isDeleting ? 'Dzēš...' : 'Dzēst' }}
+              <span class="material-symbols-outlined" aria-hidden="true">delete</span>
             </button>
 
-            <button type="button" class="button button-outline" @click="printEmployee">Drukāt</button>
+            <button type="button" class="button" @click="printEmployee">
+              <span class="material-symbols-outlined" aria-hidden="true">print</span>
+            </button>
           </div>
-          <small>Pēdējo reizi atjaunots {{ formatTimeAgo(employee.updatedAt) }}</small>
+          <small class="text-muted">Pēdējo reizi atjaunots {{ formatTimeAgo(employee.updatedAt) }}</small>
         </div>
       </div>
     </template>
@@ -206,6 +211,10 @@ watch(
   align-self: center;
 }
 
+.action-buttons {
+  margin-bottom: 6px;
+}
+
 .personal-details-grid, .details-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -233,23 +242,10 @@ dd {
   margin-bottom: 16px;
 }
 
-.timestamps {
-  color: var(--color-muted);
-  display: flex;
-  gap: 16px;
-  justify-content: center;
-}
-
-
 @media (max-width: 640px) {
   .details-grid {
     grid-template-columns: 1fr;
     gap: 16px;
-  }
-
-  .timestamps {
-    flex-direction: column;
-    gap: 4px;
   }
 }
 

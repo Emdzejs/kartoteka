@@ -49,12 +49,24 @@ onMounted(loadEmployees)
   <div class="container">
     <div class="header">
       <h1>Darbinieki</h1>
-      <div>
-        <RouterLink :to="{ name: 'employee-create' }" class="button button-success">
-          Pievienot darbinieku
+      <div class="action-buttons">
+        <RouterLink
+          :to="{ name: 'employee-create' }"
+          class="button button-success"
+          aria-label="Pievienot darbinieku"
+          title="Pievienot darbinieku"
+        >
+          <span class="material-symbols-outlined" aria-hidden="true">person_add</span>
         </RouterLink>
-        <button type="button" class="button-outline" :disabled="loading" @click="loadEmployees">
-          Ielādēt vēlreiz
+        <button
+          type="button"
+          class="button button-outline"
+          :disabled="loading"
+          aria-label="Atjaunot darbinieku sarakstu"
+          title="Atjaunot darbinieku sarakstu"
+          @click="loadEmployees"
+        >
+          <span class="material-symbols-outlined" aria-hidden="true">refresh</span>
         </button>
       </div>
     </div>
@@ -94,21 +106,33 @@ onMounted(loadEmployees)
               {{employee.phoneNumber}} <br/>
               <small class="text-muted">{{ employee.email }}</small>
             </td>
-            <td>
-              <RouterLink :to="{ name: 'employee-details', params: { id: employee.id } }" class="button">
-                Atvērt
+            <td class="action-buttons">
+              <RouterLink
+                :to="{ name: 'employee-details', params: { id: employee.id } }"
+                class="button"
+                aria-label="Apskatīt darbinieku"
+                title="Apskatīt darbinieku"
+              >
+                <span class="material-symbols-outlined" aria-hidden="true">visibility</span>
               </RouterLink>
 
-              <RouterLink :to="{ name: 'employee-edit', params: { id: employee.id } }" class="button button-warning">
-                Rediģēt
+              <RouterLink
+                :to="{ name: 'employee-edit', params: { id: employee.id } }"
+                class="button button-warning"
+                aria-label="Rediģēt darbinieku"
+                title="Rediģēt darbinieku"
+              >
+                <span class="material-symbols-outlined" aria-hidden="true">edit</span>
               </RouterLink>
               <button
                 type="button"
                 class="button-danger"
+                aria-label="Dzēst darbinieku"
+                title="Dzēst darbinieku"
                 :disabled="deletingId !== null"
                 @click.stop="handleDelete(employee)"
               >
-                Dzēst
+                  <span class="material-symbols-outlined" aria-hidden="true">delete</span>
               </button>
             </td>
           </tr>

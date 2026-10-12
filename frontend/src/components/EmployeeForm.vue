@@ -185,7 +185,8 @@ function submit() {
       </div>
     </div>
 
-    <h2>Iepriekšējās darbavietas</h2>
+    <h3>Iepriekšējās darbavietas</h3>
+
     <div
       v-for="(employment, index) in form.previousEmployments"
       :key="index"
@@ -197,10 +198,12 @@ function submit() {
         <button
           type="button"
           class="button-danger"
+          aria-label="Dzēst darba vietu"
+          title="Dzēst darba vietu"
           :disabled="isSaving"
           @click="removePreviousEmployment(index)"
         >
-          Noņemt
+          <span class="material-symbols-outlined" aria-hidden="true">delete</span>
         </button>
       </div>
 
@@ -321,14 +324,16 @@ function submit() {
         </div>
       </div>
     </div>
-    <button
-      type="button"
-      class="button-outline"
-      :disabled="isSaving"
-      @click="addPreviousEmployment"
-    >
-      {{ form.previousEmployments.length ? 'Pievienot vēl darbavietu' : 'Pievienot darbavietu' }}
-    </button>
+    <div>
+      <button
+        type="button"
+        class="button-outline"
+        :disabled="isSaving"
+        @click="addPreviousEmployment"
+      >
+        {{ form.previousEmployments.length ? 'Pievienot vēl darbavietu' : 'Pievienot darbavietu' }}
+      </button>
+    </div>
 
     <div class="text-center">
       <button type="submit" class="button-success" :disabled="isSaving">
@@ -341,6 +346,11 @@ function submit() {
 </template>
 
 <style scoped>
+form {
+  display: grid;
+  gap: 24px;
+}
+
 .form-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
