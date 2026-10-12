@@ -210,3 +210,15 @@ tbody tr:hover {
     padding: 16px;
   }
 }
+
+@media print {
+  body {
+    background: white;
+    color: black;
+  }
+
+  @page {
+    size: A4;
+    margin: 15mm;
+  }
+}

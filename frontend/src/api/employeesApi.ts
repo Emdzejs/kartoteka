@@ -4,7 +4,6 @@ export interface EmployeeSummary {
   fullName: string
   email: string
   phoneNumber: string
-  createdAt: string
   updatedAt: string
 }
 

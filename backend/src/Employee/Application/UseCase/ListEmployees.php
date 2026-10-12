@@ -23,7 +23,6 @@ final readonly class ListEmployees
                 'fullName' => $employee->fullName(),
                 'email' => $employee->email(),
                 'phoneNumber' => $employee->phoneNumber(),
-                'createdAt' => $employee->createdAt()->format(DATE_ATOM),
                 'updatedAt' => $employee->updatedAt()->format(DATE_ATOM),
             ],
             $this->employeeRepository->findAll(),

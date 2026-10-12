@@ -49,6 +49,10 @@ async function handleDelete() {
   }
 }
 
+function printEmployee() {
+  window.print()
+}
+
 watch(
   () => route.params.id,
   (id) => loadEmployee(String(id)),
@@ -58,7 +62,7 @@ watch(
 
 <template>
   <div class="container">
-    <RouterLink to="/">< Visi darbinieki</RouterLink>
+    <RouterLink to="/" class="no-print">< Visi darbinieki</RouterLink>
     <template v-if="employee">
       <div class="heading text-center">
         <div></div>
@@ -69,21 +73,26 @@ watch(
         </div>
 
         <div>
-          <RouterLink
-            :to="{ name: 'employee-edit', params: { id: employee.id } }"
-            class="button button-warning"
-          >
-            Rediģēt
-          </RouterLink>
+          <div class="no-print">
+            <RouterLink
+              :to="{ name: 'employee-edit', params: { id: employee.id } }"
+              class="button button-warning"
+            >
+              Rediģēt
+            </RouterLink>
 
-          <button
-            type="button"
-            class="button button-danger"
-            :disabled="isDeleting"
-            @click="handleDelete"
-          >
-            {{ isDeleting ? 'Dzēš...' : 'Dzēst' }}
-          </button>
+            <button
+              type="button"
+              class="button button-danger"
+              :disabled="isDeleting"
+              @click="handleDelete"
+            >
+              {{ isDeleting ? 'Dzēš...' : 'Dzēst' }}
+            </button>
+
+            <button type="button" class="button button-outline" @click="printEmployee">Drukāt</button>
+          </div>
+          <small>Pēdējo reizi atjaunots {{ formatTimeAgo(employee.updatedAt) }}</small>
         </div>
       </div>
     </template>
@@ -182,10 +191,6 @@ watch(
           </div>
         </div>
       </template>
-      <div class="timestamps">
-        <small>Izveidots {{ formatTimeAgo(employee.createdAt) }}</small>
-        <small>Pēdējo reizi atjaunots {{ formatTimeAgo(employee.updatedAt) }}</small>
-      </div>
     </template>
   </div>
 </template>
@@ -245,6 +250,16 @@ dd {
   .timestamps {
     flex-direction: column;
     gap: 4px;
+  }
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  .section {
+    break-inside: avoid;
   }
 }
 </style>
