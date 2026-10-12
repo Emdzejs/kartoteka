@@ -2,12 +2,14 @@
   --color-primary: #DCEDFF;
   --color-primary-darken: #c3dcea;
   --color-secondary: #FFF3F7;
-  --color-secondary-darken: #FFF3F7;
+  --color-secondary-darken: #ebdae0;
   --color-accent: #0079BA;
   --color-accent-darken: #006398;
-  --color-text: #101828;
   --color-muted: #6b7280;
   --color-danger: #d84444;
+  --color-danger-darken: #c63e3e;
+  --color-success: #b8d861;
+  --color-success-darken: #adca5f;
 
   --border-radius: 6px;
 
@@ -30,38 +32,72 @@ h1, h3 {
   margin: 0;
 }
 
+hr {
+  width: 100%;
+  border: solid 1px var(--color-primary-darken);
+}
+
+hr.secondary {
+  border: solid 1px var(--color-secondary-darken);
+}
+
+label {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+input,
+select {
+  padding: 12px;
+  border: 1px solid var(--color-accent);
+  border-radius: var(--border-radius);
+}
+
 .container {
   max-width: 1100px;
   margin: 64px auto;
 }
 
-@media (max-width: 640px) {
-  .container {
-    margin: 24px auto;
-    padding: 0 16px;
-  }
-}
-
-.header {
-  display: grid;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 32px;
-}
-
-button {
+button, .button {
   text-transform: uppercase;
   font-weight: 500;
+  font-size: 14px;
   color: white;
   padding: 16px 24px;
-  border: 1px solid #d1d5db;
+  border: unset;
   border-radius: var(--border-radius);
   background: var(--color-accent);
   cursor: pointer;
 }
 
+.button-outline {
+  color: var(--color-accent);
+  background: transparent;
+  border: 1px solid var(--color-accent);
+}
+
+.button-outline:hover:not(:disabled) {
+  background: var(--color-primary);
+}
+
+.button-success {
+  background: var(--color-success);
+}
+
+.button-danger {
+  background: var(--color-danger);
+}
+
 button:hover:not(:disabled) {
   background: var(--color-accent-darken);
+}
+
+.button-success:hover:not(:disabled) {
+  background: var(--color-success-darken);
+}
+
+.button-danger:hover:not(:disabled) {
+  background: var(--color-danger-darken);
 }
 
 button:disabled {
@@ -102,6 +138,18 @@ tbody tr:hover {
   background: #f9fafb;
 }
 
+.section {
+  margin-bottom: 24px;
+  padding: 48px;
+  border-radius: 16px;
+  display: grid;
+  gap: 24px;
+
+  input, select {
+    text-align: center;
+  }
+}
+
 .text-accent {
   color: var(--color-accent);
 }
@@ -124,4 +172,23 @@ tbody tr:hover {
 
 .background-secondary {
   background-color: var(--color-secondary);
+}
+
+.background-danger {
+  background-color: var(--color-danger);
+}
+
+.background-success {
+  background-color: var(--color-success);
+}
+
+@media (max-width: 640px) {
+  .container {
+    margin: 24px auto;
+    padding: 0 16px;
+  }
+
+  .section {
+    padding: 16px;
+  }
 }

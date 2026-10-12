@@ -35,16 +35,14 @@ watch(
 
 <template>
   <div class="container">
-    <div class="header">
-      <RouterLink to="/">< Visi darbinieki</RouterLink>
-      <template v-if="employee">
-        <div class="text-center">
-          <h1>{{ employee.fullName }}</h1>
-          <p>{{ formatIdentityNumber(employee.identityNumber) }}</p>
-        </div>
-        <div/>
-      </template>
-    </div>
+    <RouterLink to="/">< Visi darbinieki</RouterLink>
+    <template v-if="employee">
+      <div class="text-center">
+        <h1>{{ employee.fullName }}</h1>
+        <p>{{ formatIdentityNumber(employee.identityNumber) }}</p>
+      </div>
+      <div/>
+    </template>
     <p v-if="loading">Ielādē datus...</p>
 
     <div v-else-if="error">
@@ -105,13 +103,12 @@ watch(
         </dl>
       </div>
 
-      <h2>Previous employments ({{ employee.previousEmployments.length }})</h2>
-      <p v-if="employee.previousEmployments.length === 0" class="text-muted">
-        No previous employments.
-      </p>
+      <h3>
+        Iepriekšējās darba vietas
+        {{ employee.previousEmployments.length ? '(' + employee.previousEmployments.length + ')' : '- Nav' }}</h3>
 
-      <template v-else>
-        <section
+      <template v-if="employee.previousEmployments.length !== 0">
+        <div
           v-for="employment in employee.previousEmployments"
           :key="employment.id"
           class="section background-secondary text-center"
@@ -139,7 +136,7 @@ watch(
               </div>
             </dl>
           </div>
-        </section>
+        </div>
       </template>
       <div class="timestamps">
         <small>Izveidots {{ formatTimeAgo(employee.createdAt) }}</small>
@@ -150,21 +147,6 @@ watch(
 </template>
 
 <style scoped>
-.header {
-  grid-template-columns: 1fr auto 1fr;
-}
-
-.section {
-  margin-bottom: 24px;
-  padding: 48px;
-  border-radius: 16px;
-}
-
-hr {
-  margin: 36px 0;
-  border: solid 1px var(--color-primary-darken);
-}
-
 .personal-details-grid, .details-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -201,10 +183,6 @@ dd {
 
 
 @media (max-width: 640px) {
-  .section {
-    padding: 16px;
-  }
-
   .details-grid {
     grid-template-columns: 1fr;
     gap: 16px;

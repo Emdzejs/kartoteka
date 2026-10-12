@@ -65,3 +65,53 @@ export async function getEmployee(id: string): Promise<EmployeeDetails> {
   return (await response.json()) as EmployeeDetails
 }
 
+export interface PreviousEmploymentInput {
+  id?: string
+  businessRegistrationNumber: string
+  businessName: string
+  role: string
+  startDate: string
+  endDate: string
+  businessCountryCode: string
+  businessPostalCode: string
+  businessCity: string
+  businessStreet: string
+  businessStreetNumber: string
+}
+
+export interface EmployeeInput {
+  identityNumber: string
+  firstName: string
+  lastName: string
+  gender: string
+  email: string
+  phoneNumber: string
+  countryCode: string
+  postalCode: string
+  city: string
+  street: string
+  streetNumber: string
+  previousEmployments: PreviousEmploymentInput[]
+}
+
+export async function createEmployee(input: EmployeeInput): Promise<string> {
+  const response = await fetch('/api/employees', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(input),
+  })
+
+  if (!response.ok) {
+    const data: { error?: string } | null = await response
+      .json()
+      .catch(() => null)
+
+    throw new Error(data?.error ?? 'Neizdevās izveidot darbinieku')
+  }
+
+  const data = (await response.json()) as { id: string }
+
+  return data.id
+}

@@ -1,0 +1,46 @@
+
+<script setup lang="ts">
+import { ref } from 'vue'
+import { RouterLink, useRouter } from 'vue-router'
+import EmployeeForm from '@/components/EmployeeForm.vue'
+import { createEmployee, type EmployeeInput } from '@/api/employeesApi'
+
+const router = useRouter()
+
+const saving = ref(false)
+const error = ref<string | null>(null)
+
+async function handleSubmit(input: EmployeeInput) {
+  saving.value = true
+  error.value = null
+
+  try {
+    const id = await createEmployee(input)
+
+    await router.push({
+      name: 'employee-details',
+      params: { id },
+    })
+  } catch (err) {
+    error.value = err instanceof Error ? err.message : 'Radās kļūda'
+  } finally {
+    saving.value = false
+  }
+}
+</script>
+
+<template>
+  <main class="container">
+    <RouterLink to="/">< Visi Darbinieki</RouterLink>
+    <h1>Pievienot darbinieku</h1>
+    <p v-if="error" class="text-danger">{{ error }}</p>
+
+    <EmployeeForm :isSaving="saving" @submit="handleSubmit" />
+  </main>
+</template>
+
+<style scoped>
+h1 {
+  margin: 16px 0;
+}
+</style>

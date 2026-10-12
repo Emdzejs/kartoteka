@@ -29,9 +29,14 @@ onMounted(loadEmployees)
   <div class="container">
     <div class="header">
       <h1>Darbinieki</h1>
-      <button type="button" :disabled="loading" @click="loadEmployees">
-        Ielādēt vēlreiz
-      </button>
+      <div>
+        <RouterLink :to="{ name: 'employee-create' }" class="button">
+          Pievienot darbinieku
+        </RouterLink>
+        <button type="button" :disabled="loading" @click="loadEmployees">
+          Ielādēt vēlreiz
+        </button>
+      </div>
     </div>
 
     <div class="text-center">
