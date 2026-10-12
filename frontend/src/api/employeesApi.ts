@@ -115,3 +115,24 @@ export async function createEmployee(input: EmployeeInput): Promise<string> {
 
   return data.id
 }
+
+export async function updateEmployee(
+  id: string,
+  input: EmployeeInput,
+): Promise<void> {
+  const response = await fetch(`/api/employees/${encodeURIComponent(id)}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(input),
+  })
+
+  if (!response.ok) {
+    if (response.status === 409) {
+      throw new Error('Darbinieks ar šādu personas kodu jau eksistē')
+    }
+
+    throw new Error('Neizdevās rediģēt darbinieku')
+  }
+}

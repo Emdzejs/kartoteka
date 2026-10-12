@@ -2,8 +2,9 @@
 import { reactive } from 'vue'
 import type { EmployeeInput } from '@/api/employeesApi'
 
-defineProps<{
+const props = defineProps<{
   isSaving?: boolean
+  initialData?: EmployeeInput
 }>()
 
 const emit = defineEmits<{
@@ -11,18 +12,19 @@ const emit = defineEmits<{
 }>()
 
 const form = reactive<EmployeeInput>({
-  identityNumber: '',
-  firstName: '',
-  lastName: '',
-  gender: '',
-  email: '',
-  phoneNumber: '',
-  countryCode: 'LV',
-  postalCode: '',
-  city: '',
-  street: '',
-  streetNumber: '',
-  previousEmployments: [],
+  identityNumber: props.initialData?.identityNumber ?? '',
+  firstName: props.initialData?.firstName ?? '',
+  lastName: props.initialData?.lastName ?? '',
+  gender: props.initialData?.gender ?? '',
+  email: props.initialData?.email ?? '',
+  phoneNumber: props.initialData?.phoneNumber ?? '',
+  countryCode: props.initialData?.countryCode ?? 'LV',
+  postalCode: props.initialData?.postalCode ?? '',
+  city: props.initialData?.city ?? '',
+  street: props.initialData?.street ?? '',
+  streetNumber: props.initialData?.streetNumber ?? '',
+  previousEmployments:
+    props.initialData?.previousEmployments.map((employment) => ({ ...employment })) ?? [],
 })
 
 function addPreviousEmployment() {
@@ -330,7 +332,9 @@ function submit() {
 
     <div class="text-center">
       <button type="submit" class="button-success" :disabled="isSaving">
-        {{ isSaving ? 'Saglabā...' : 'Saglabāt darbinieku' }}
+        {{
+          isSaving ? 'Saglabā...' : initialData ? 'Saglabāt izmaiņas' : 'Saglabāt darbinieku'
+        }}
       </button>
     </div>
   </form>

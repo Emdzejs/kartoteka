@@ -3,7 +3,7 @@ import { ref, watch } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
 import { getEmployee, type EmployeeDetails } from '@/api/employeesApi'
 import { formatIdentityNumber } from '@/utils/identityNumberHelper'
-import { formatTimeAgo } from '@/utils/dateHelper'
+import {formatDate, formatTimeAgo} from '@/utils/dateHelper'
 import {formatGender} from "@/utils/genderHelper.ts";
 
 const route = useRoute()
@@ -37,11 +37,23 @@ watch(
   <div class="container">
     <RouterLink to="/">< Visi darbinieki</RouterLink>
     <template v-if="employee">
-      <div class="text-center">
-        <h1>{{ employee.fullName }}</h1>
-        <p>{{ formatIdentityNumber(employee.identityNumber) }}</p>
+      <div class="heading text-center">
+        <div></div>
+
+        <div>
+          <h1>{{ employee.fullName }}</h1>
+          <p>{{ formatIdentityNumber(employee.identityNumber) }}</p>
+        </div>
+
+        <div>
+          <RouterLink
+            :to="{ name: 'employee-edit', params: { id: employee.id } }"
+            class="button"
+          >
+            Rediģēt
+          </RouterLink>
+        </div>
       </div>
-      <div/>
     </template>
     <p v-if="loading">Ielādē datus...</p>
 
@@ -114,7 +126,7 @@ watch(
           class="section background-secondary text-center"
         >
           <div class="employment-list">
-            <h3>{{ employment.role }} ({{ employment.startDate }} - {{ employment.endDate }})</h3>
+            <h3>{{ employment.role }} ({{ formatDate(employment.startDate) }} - {{ formatDate(employment.endDate) }})</h3>
             <dl class="details-grid">
               <div>
                 <dt>Business name</dt>
@@ -147,6 +159,16 @@ watch(
 </template>
 
 <style scoped>
+.heading {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+}
+
+.heading > div:last-child {
+  justify-self: end;
+  align-self: center;
+}
+
 .personal-details-grid, .details-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));

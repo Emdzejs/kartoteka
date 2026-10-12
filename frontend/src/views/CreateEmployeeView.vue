@@ -22,7 +22,7 @@ async function handleSubmit(input: EmployeeInput) {
       params: { id },
     })
   } catch (err) {
-    error.value = err instanceof Error ? err.message : 'Radās kļūda'
+    error.value = err instanceof Error ? err.message : 'Neizdevās izveidot darbinieku'
   } finally {
     saving.value = false
   }
@@ -38,9 +38,3 @@ async function handleSubmit(input: EmployeeInput) {
     <EmployeeForm :isSaving="saving" @submit="handleSubmit" />
   </main>
 </template>
-
-<style scoped>
-h1 {
-  margin: 16px 0;
-}
-</style>
