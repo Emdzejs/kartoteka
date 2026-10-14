@@ -210,6 +210,29 @@ tbody tr:hover {
   background-color: var(--color-warning);
 }
 
+.error {
+  scroll-margin-top: 40px;
+  color: var(--color-danger);
+  padding: 12px;
+  border-radius: 6px;
+  animation: errorFlash 1.5s ease-out;
+}
+
+@keyframes errorFlash {
+  0%, 40% {
+    background-color: rgba(220, 53, 69, 0.25);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .error {
+    animation: none;
+  }
+}
+
 @media (max-width: 640px) {
   .container {
     margin: 24px auto;

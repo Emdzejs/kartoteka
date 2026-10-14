@@ -103,9 +103,7 @@ watch(
     </template>
     <p v-if="loading">Ielādē datus...</p>
 
-    <div v-else-if="error">
-      <p class="text-danger">{{ error }}</p>
-    </div>
+    <p v-else-if="error" class="text-danger">{{ error }}</p>
 
     <template v-else-if="employee">
       <div class="section background-primary text-center">

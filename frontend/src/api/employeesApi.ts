@@ -132,7 +132,11 @@ export async function updateEmployee(
       throw new Error('Darbinieks ar šādu personas kodu jau eksistē')
     }
 
-    throw new Error('Neizdevās rediģēt darbinieku')
+    const data: { error?: string } | null = await response
+      .json()
+      .catch(() => null)
+
+    throw new Error(data?.error ?? 'Neizdevās rediģēt darbinieku')
   }
 }
 

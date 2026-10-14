@@ -1,6 +1,6 @@
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import {nextTick, onMounted, ref} from 'vue'
 import { RouterLink, useRoute, useRouter } from 'vue-router'
 import EmployeeForm from '@/components/EmployeeForm.vue'
 import {
@@ -18,6 +18,7 @@ const employee = ref<EmployeeDetails | null>(null)
 const loading = ref(true)
 const isSaving = ref(false)
 const error = ref<string | null>(null)
+const errorElement = ref<HTMLElement | null>(null)
 
 onMounted(async () => {
   try {
@@ -42,6 +43,13 @@ async function handleSubmit(input: EmployeeInput) {
     })
   } catch (err) {
     error.value = err instanceof Error ? err.message : 'Neizdevās saglabāt darbinieku'
+
+    await nextTick()
+
+    errorElement.value?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
+    })
   } finally {
     isSaving.value = false
   }
@@ -58,7 +66,7 @@ async function handleSubmit(input: EmployeeInput) {
 
     <p v-if="loading">Ielādē darbinieku...</p>
 
-    <p v-if="error" class="error">{{ error }}</p>
+    <p v-if="error" ref="errorElement" class="error">{{ error }}</p>
 
     <EmployeeForm
       v-if="employee"
